@@ -2,6 +2,8 @@ package io.horizontalsystems.bankwallet.modules.contacts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import io.horizontalsystems.bankwallet.core.App
+import io.horizontalsystems.bankwallet.modules.contacts.model.ContactAddress
 
 object ContactsModule {
 
@@ -22,6 +24,16 @@ object ContactsModule {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return ContactViewModel(repository, contactId) as T
+        }
+    }
+
+    class AddressViewModelFactory(
+        private val contactAddress: ContactAddress?,
+        private val definedAddresses: List<ContactAddress>?
+    ) : ViewModelProvider.Factory {
+        @Suppress("UNCHECKED_CAST")
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return AddressViewModel(App.evmBlockchainManager, App.marketKit, contactAddress, definedAddresses) as T
         }
     }
 
